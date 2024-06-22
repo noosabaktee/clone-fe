@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Stack, Text, Link, Container } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text, Link, Container, VStack, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Post from "../assets/image/icon.png";
@@ -10,7 +10,7 @@ const WelcomePage = () => {
     const user = useRecoilValue(userAtom);
 
     return (
-        <Container maxW={"1440px"}>
+        <Container maxW="1440px" w="full">
         <Box p={4}>
             <Flex
                 direction={{ base: 'column', md: 'row' }}
@@ -68,6 +68,59 @@ const WelcomePage = () => {
                 </Box>
             </Flex>
         </Box>
+        <VStack spacing={8} p={8} align="center">
+      <Box textAlign="center">
+        <Text color="orange.400" fontWeight="bold">Our Services</Text>
+        <Heading fontSize="2xl">Apa yang Bisa Kami Lakukan Untuk Mu</Heading>
+      </Box>
+      <Flex justify="center" wrap="wrap" spacing={8} maxW="1200px">
+        <Box 
+          bg="gray.50" 
+          p={8} 
+          borderRadius="md" 
+          boxShadow="md" 
+          maxW="325px" 
+          minH="332px"
+          textAlign="center"
+          m={4}
+        >
+          <Heading fontSize="xl" mb={4}>Pelajaran Gitar yang Dipersonalisasi</Heading>
+          <Text>
+            Kami menawarkan kursus gitar yang disesuaikan dengan kebutuhan dan tujuan Anda
+          </Text>
+        </Box>
+        <Box 
+          bg="gray.50" 
+          p={8} 
+          borderRadius="md" 
+          boxShadow="md" 
+          maxW="325px" 
+          minH="332px"
+          textAlign="center"
+          m={4}
+        >
+          <Heading fontSize="xl" mb={4}>Materi Pembelajaran Berkualitas</Heading>
+          <Text>
+            Anda dapat mengakses berbagai materi pembelajaran berkualitas tinggi, seperti lembaran musik, video tutorial, dan latihan interaktif
+          </Text>
+        </Box>
+        <Box 
+          bg="gray.50" 
+          p={8} 
+          borderRadius="md" 
+          boxShadow="md" 
+          maxW="325px" 
+          minH="332px"
+          textAlign="center"
+          m={4}
+        >
+          <Heading fontSize="xl" mb={4}>Dukungan dan Komunitas</Heading>
+          <Text>
+            Gabung dengan komunitas gitaris kami untuk berbagi pengalaman, saran, inspirasi, dan acara.
+          </Text>
+        </Box>
+      </Flex>
+    </VStack>
         </Container>
     );
 }
