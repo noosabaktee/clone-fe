@@ -17,7 +17,7 @@ const Navbar = () => {
     const logout = useLogout();
 
     return (
-        <Container maxW="1440px" w="full">
+        <Container maxW="1440px" w="full" >
             <Flex justifyContent={"center"} mt={7}>
                 <Link as={RouterLink} to='/'>
                     <Image src={Logo} />

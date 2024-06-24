@@ -24,10 +24,10 @@ function App() {
 	const { pathname } = useLocation();
 	return (
 		<Box position={"relative"} w='full'>
-			<Container maxW={pathname === "/" ? { base: "1440px", md: "1000px" } : "1440"} w={"full"}>
+			{/* <Container maxW={pathname === "/" ? { base: "1440px", md: "1000px" } : "1440"} w={"full"}> */}
+			<Container maxW={"1440px"}>
 				<Navbar />
 				<Routes>
-					<Route path="/" element={<WelcomePage />} />
 					{/* <Route path='/' element={user ? <ForumPage /> : <Navigate to='/login' />} />
 					<Route path='/login' element={!user ? <LoginPage /> : <Navigate to='/' />} /> */}
 					<Route path='/update' element={user ? <UpdateProfilePage /> : <Navigate to='/login' />} />
@@ -36,6 +36,8 @@ function App() {
 					<Route path="/forum" element={<ForumPage />} />
 					<Route path="/about" element={<AboutPage />} />
 					<Route path="/contact" element={<ContactPage />} />
+					<Route path="/" element={<WelcomePage />} />
+
 
 					<Route
 						path='/:username'

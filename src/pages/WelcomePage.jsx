@@ -1,17 +1,24 @@
-import { Box, Button, Flex, Stack, Text, Link, Container, VStack, Heading } from '@chakra-ui/react';
+import { Box, Button, Flex, Stack, Text, Link, Container, VStack, Heading, Image } from '@chakra-ui/react';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Post from "../assets/image/icon.png";
 import { useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
 import Main from "../assets/image/main.png"
+import Logo from "../assets/image/Logo.png";
 
 const WelcomePage = () => {
     const user = useRecoilValue(userAtom);
 
     return (
-        <Container maxW="1440px" w="full">
-        <Box p={4}>
+      <>
+        {/* // <Container maxW="1440px" w="full"> */}
+        <Box p={4} justifyItems={"center"} alignItems={"center"} justifyContent={"center"}>
+          {/* <Flex justify="center" align="center">
+            <Link as={RouterLink} to="/">
+              <Image src={Logo} alt="JagoGitar Logo" />
+            </Link>
+          </Flex> */}
             <Flex
                 direction={{ base: 'column', md: 'row' }}
                 align="center"
@@ -121,7 +128,8 @@ const WelcomePage = () => {
         </Box>
       </Flex>
     </VStack>
-        </Container>
+        {/* // </Container> */}
+        </>
     );
 }
 
