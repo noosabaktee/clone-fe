@@ -10,19 +10,24 @@ import userAtom from "./atoms/userAtom";
 import UpdateProfilePage from "./pages/UpdateProfilePage";
 import CreatePost from "./components/CreatePost";
 import ChatPage from "./pages/ChatPage";
-import CourseListPage from './pages/CourseListPage'
-import CoursePage from "./pages/CoursePage";
+import CourseListPage from './pages/course/CourseListPage'
+import CoursePage from "./pages/course/CoursePage";
 import WelcomePage from "./pages/WelcomePage";
 import AboutPage from "./pages/AboutPage"
 import ContactPage from "./pages/ContactPage"
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/auth/LoginPage";
+import SignupPage from "./pages/auth/SignupPage";
+
+import CustomPage from "./tuner/CustomPage";
+import Index from "./tuner/Index";
+import LightDark from "./components/LightDark";
 
 
 function App() {
 	const user = useRecoilValue(userAtom);
 	const { pathname } = useLocation();
 	return (
+		
 		<Box position={"relative"} w='full'>
 			{/* <Container maxW={pathname === "/" ? { base: "1440px", md: "1000px" } : "1440"} w={"full"}> */}
 			<Container maxW={"1440px"}>
@@ -37,8 +42,6 @@ function App() {
 					<Route path="/about" element={<AboutPage />} />
 					<Route path="/contact" element={<ContactPage />} />
 					<Route path="/" element={<WelcomePage />} />
-
-
 					<Route
 						path='/:username'
 						element={user ? (<> <UserPage /> <CreatePost /> </>) : (<UserPage />)}
@@ -48,6 +51,8 @@ function App() {
 					<Route path='/course/list' element={<CourseListPage />} />
 					<Route path='/course/:id' element={<CoursePage />} />
 				</Routes>
+			<LightDark />
+				
 			</Container>
 		</Box>
 	);

@@ -6,6 +6,11 @@ import { useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
 import Main from "../assets/image/main.png"
 import Logo from "../assets/image/Logo.png";
+import Dekstop2 from "../assets/image/dekstop2.png"
+import Dekstop1 from "../assets/image/dekstop1.png"
+import AdeS from "../assets/image/adeS.png"
+import HarryV from "../assets/image/harryV.png"
+import AryaN from "../assets/image/aryaN.png"
 
 const WelcomePage = () => {
     const user = useRecoilValue(userAtom);
@@ -13,7 +18,7 @@ const WelcomePage = () => {
     return (
       <>
         {/* // <Container maxW="1440px" w="full"> */}
-        <Box p={4} justifyItems={"center"} alignItems={"center"} justifyContent={"center"}>
+        <Box  justifyItems={"center"} alignItems={"center"} justifyContent={"center"}>
           {/* <Flex justify="center" align="center">
             <Link as={RouterLink} to="/">
               <Image src={Logo} alt="JagoGitar Logo" />
@@ -23,11 +28,11 @@ const WelcomePage = () => {
                 direction={{ base: 'column', md: 'row' }}
                 align="center"
                 justify="center"
-                mt={10}
+                // mt={10}
                 mb={30}
             >
-                <Box flex={1} p={4} textAlign={{ base: 'center', md: 'left' }}>
-                    <img src={Post} alt="Post" style={{ width: '100%', height: 'auto' }} />
+                <Box flex={1} p={4} textAlign={{ base: 'center', md: 'left' }} >
+                    <img src={Post} alt="Post" style={{ width: '', height: '70vh' }} />
                 </Box>
                 <Box flex={1} p={4}>
                     <Text fontSize='2xl' mb={4} textAlign={{ base: 'center', md: 'left' }}>
@@ -57,23 +62,36 @@ const WelcomePage = () => {
                 </Box>
             </Flex>
 
-            <Flex
-                direction={{ base: 'column', md: 'row' }}
-                p={4}
-                align="center"
-                justify="center"
-                mt={10}
-                mb={30}
-            >
-                <Box flex={1} p={4} textAlign={{ base: 'center', md: 'left' }}>
-                    <Text fontSize={"2xl"} mb={4} noOfLines={[1, 2, 3]}>
-                        Belajar dengan kelas terstruktur dan ditemani oleh gitaris-gitaris nasional pro 
-                    </Text>
-                </Box>
-                <Box flex={1} p={4} textAlign={{ base: 'center', md: 'left' }}>
-                    <img src={Main} alt="Main" style={{ width: '300px', height: 'auto' }} />
-                </Box>
-            </Flex>
+          <Flex
+          direction={{ base: 'column', md: 'row' }}
+          p={4}
+          align="center"
+          justify="space-between"
+          mt={10}
+          mb="60px"
+        >
+          <Box flex={1} p={4} textAlign={{ base: 'center', md: 'left' }} maxW={{ base: '100%', md: '50%' }}>
+            <Text fontSize={"2xl"} mb={4} noOfLines={[1, 2, 3]}>
+              Belajar dengan kelas terstruktur dan ditemani oleh gitaris-gitaris nasional pro
+            </Text>
+          </Box>
+          
+          <Box position="relative" maxW={{ base: '100%', md: '50%' }} width={{ base: '100%', md: '600px' }} height="500px" marginLeft={{ base: 0, md: 20 }} mb="40px">
+            <Box position="absolute" top="0" right="250px" zIndex="1">
+              <Image src={AdeS} borderRadius="15px" width="240px" alt="Ade Sulistio" />
+              <Text position="absolute" top="180px" left="70px" bg="white" padding="2px 5px" borderRadius="3px" marginTop="60px" bgColor="transparent">Ade Sulistio</Text>
+            </Box>
+            <Box position="absolute" top="100px" right="90px" zIndex="2">
+              <Image src={HarryV} borderRadius="15px" width="200px" alt="Harry Veego" />
+              <Text position="absolute" top="220px" right="50px" bg="white" padding="2px 5px" borderRadius="3px" marginTop="50px" bgColor="transparent">Harry Veego</Text>
+            </Box>
+            <Box position="absolute" top="320px" right="240px" zIndex="3">
+              <Image src={AryaN} borderRadius="15px" width="240px" alt="Pria Bernada" />
+              <Text position="absolute" top="220px" left="70px" bg="white" padding="2px 5px" borderRadius="3px" marginTop="60px" bgColor="transparent">Pria Bernada</Text>
+            </Box>
+          </Box>
+          </Flex>
+
         </Box>
         <VStack spacing={8} p={8} align="center">
       <Box textAlign="center">

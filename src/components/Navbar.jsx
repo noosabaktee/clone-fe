@@ -18,19 +18,14 @@ const Navbar = () => {
 
     return (
         <Container maxW="1440px" w="full" >
-            <Flex justifyContent={"center"} mt={7}>
+            <Flex justifyContent={"center"} mt={6}>
                 <Link as={RouterLink} to='/'>
                     <Image src={Logo} />
                 </Link>
             </Flex>
-            <Flex justifyContent={"space-between"} mt={6} mb='12'>
+            <Flex justifyContent={"space-between"} mt={9} mb='12vh'>
                 <Flex color="white" justify="center">
-                    <Flex justify="space-between" maxW="1200px" w="full" align="center" gap={3}>
-                        {/* {user && (
-                            <Link as={RouterLink} to={`/${user.username}`} mx={4}>
-                                <RxAvatar size={24} />
-                            </Link>
-                        )} */}
+                    <Flex justify="space-between" maxW="120vh" w="full" align="center" gap={1}>
                         <Link as={RouterLink} to="/" mx={4}>
                             <Button _hover={"transparent"} bg={"orange.medium"} color={"white"}>
                                 Home
@@ -53,6 +48,11 @@ const Navbar = () => {
                             </Button>
                         </Link>
 						)}
+                        <Button _hover={"transparent"}>
+                            <a href="/tuner.html" rel="noopener noreferrer">
+                            Tuner
+                            </a>
+                        </Button>
                     </Flex>
                 </Flex>
 

@@ -1,7 +1,7 @@
 import { Box, Flex, Text, Image, Icon, Button } from "@chakra-ui/react";
 import { FaStar, FaShare, FaUser, FaRegEye } from "react-icons/fa";
 import { useRecoilState } from "recoil";
-import sharedCourseAtom from "../atoms/sharedCourseAtom";
+import sharedCourseAtom from "../../atoms/sharedCourseAtom";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ course }) => {
@@ -21,7 +21,7 @@ const CourseCard = ({ course }) => {
       transition="background-color 0.3s"
     >
       <Flex justify="space-between" align="center" p={4} borderBottom="1px solid #e2e8f0">
-        <Image src={course.image} alt={course.title} boxSize="100px" objectFit="cover" borderRadius="md" />
+        <Image src={course.img} alt={course.title} boxSize="100px" width="200px" objectFit="cover" borderRadius="md" />
         <Box flex="1" mx={4} ml={12}>
           <Text fontWeight="bold">{course.title}</Text>
           {course.tag && (

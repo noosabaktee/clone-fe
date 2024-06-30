@@ -1,11 +1,13 @@
 import { VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import CourseCard from "../components/CourseCard";
+import CourseCard from "./CourseCard";
+import Gitar from "../../assets/image/gitar.png"
 
 const courses = [
   {
     id: 1,
     title: "Belajar gitar bersama Rolis",
+    img: `${Gitar}`,
     totalHours: "40 total jam",
     updated: "Diperbarui 5/2024",
     rating: 4.6,
@@ -16,6 +18,7 @@ const courses = [
   {
     id: 2,
     title: "Belajar Gitar bersama Roby",
+    img: `${Gitar}`,
     totalHours: "25 total jam",
     updated: "Diperbarui 6/2022",
     rating: 4.8,
@@ -26,6 +29,7 @@ const courses = [
   {
     id: 3,
     title: "Gitar kupetik, bass kubetot",
+    img: `${Gitar}`,
     totalHours: "15 jam",
     updated: "Diperbarui 3/2021",
     rating: 4.7,
@@ -37,14 +41,16 @@ const courses = [
   // Add more courses as needed
 ];
 
-const CourseListPage = (props) => (
-  <VStack align="stretch" spacing={4} w="full">
-    {courses.map((course) => (
-      <Link key={course.id} to={`/course/${course.id}`}>
-        <CourseCard course={course} />
-      </Link>
-    ))}
-  </VStack>
-);
+const CourseListPage = (props) => {
+  return (
+    <VStack align="stretch" spacing={4} w="full">
+      {courses.map((course) => (
+        <Link key={course.id} to={`/course/${course.id}`}>
+            <CourseCard course={course} />
+        </Link>
+      ))}
+    </VStack>
+  );
+};
 
 export default CourseListPage;
