@@ -20,7 +20,8 @@ import { useSetRecoilState } from "recoil";
 // import authScreenAtom from "../atoms/authAtom";
 import useShowToast from "../../hooks/useShowToast";
 import userAtom from "../../atoms/userAtom";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {CreateUser} from '../../libs/Methods'
 
 export default function SignupPage() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -29,33 +30,124 @@ export default function SignupPage() {
 		username: "",
 		email: "",
 		password: "",
+		photo: null,
 	});
+	const navigate = useNavigate();
 
 	const showToast = useShowToast();
 	const setUser = useSetRecoilState(userAtom);
 
 	const handleSignup = async () => {
-		try {
-			const res = await fetch("/api/users/signup", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(inputs),
-			});
-			console.log(inputs)
-			const data = await res.json();
+		// try {
+		// 	const res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/user`, {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify(inputs),
+		// 	});
+		// 	console.log(inputs)
+		// 	const data = await res.json();
 
+		// 	if (data.error) {
+		// 		showToast("Error", data.error, "error");
+		// 		return;
+		// 	}
+
+		// 	localStorage.setItem("user-belajar", JSON.stringify(data));
+		// 	setUser(data);
+		// } catch (error) {
+		// 	showToast("Error", error, "error");
+		// }
+
+
+
+		// try {
+		// 	const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/user`, {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify(inputs),
+		// 	});
+		// 	console.log(inputs)
+		// 	const data = await res.json();
+
+		// 	if (data.error) {
+		// 		showToast("Error", data.error, "error");
+		// 		return;
+		// 	}
+
+		// 	localStorage.setItem("user-belajar", JSON.stringify(data));
+		// 	setUser(data);
+		// } catch (error) {
+		// 	showToast("Error", error, "error");
+		// }
+
+		CreateUser({
+			name: inputs.name,
+			username: inputs.username,
+			email: inputs.email,
+			password: inputs.password,
+			photo: null,
+		})
+		.then(data => {
+			console.log('User creation response:', data);
 			if (data.error) {
 				showToast("Error", data.error, "error");
-				return;
+			} else {
+				showToast("Success", "User created successfully!", "success");
+	
+				// localStorage.setItem("user-belajar", JSON.stringify(data));
+				// setUser(data); //backend lama
+				
+				// localStorage.setItem('user-belajar', JSON.stringify({
+				// 	name: inputs.name,
+				// 	username: inputs.username,
+				// 	email: inputs.email,
+				// 	photo: null,
+				// }));
+				localStorage.setItem("user-belajar", JSON.stringify(data));
+				setUser(data);
+				navigate("/")
+				console.log(data)
 			}
+		})
+		.catch(error => {
+			console.error('Error creating user:', error);
+			showToast("Error", "Failed to create user. Please try again later.", "error");
+		});
 
-			localStorage.setItem("user-belajar", JSON.stringify(data));
-			setUser(data);
-		} catch (error) {
-			showToast("Error", error, "error");
-		}
+		// try{
+		// 	const data = await createUser({
+		// 		name: inputs.name,
+		// 		username: inputs.username,
+		// 		email: inputs.email,
+		// 		password: inputs.password
+		// 	}). then(data => {
+		// 		console.log(data)
+		// 	})
+		// 	if (data.error) {
+		// 		showToast("Error", data.error, "error");
+		// 		return;
+		// 	}
+
+		// 	if (!data) {
+		// 		throw new Error("No response from server");
+		// 	}
+
+		// 	if (data.error) {
+		// 		showToast("Error", data.error, "error");
+		// 		return;
+		// 	}
+
+		// 	localStorage.setItem("user-belajar", JSON.stringify(data));
+		// 	console.log(data)
+		// 	showToast("Success", "success")
+		// } catch (error) {
+		// 	showToast("Error", error.message || "error", "error");
+		// }
+		
 	};
 
 	return (

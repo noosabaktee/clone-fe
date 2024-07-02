@@ -39,7 +39,7 @@ const MessageInput = ({ setMessages }) => {
 		setIsSending(true);
 
 		try {
-			const res = await fetch("/api/messages", {
+			const res = await fetch("https://orchid-sulfuric-reaction.glitch.me/message", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

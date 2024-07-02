@@ -15,7 +15,7 @@ const ForumPage = () => {
 			setLoading(true);
 			setPosts([]);
 			try {
-				const res = await fetch("/api/posts/feed");
+				const res = await fetch("https://orchid-sulfuric-reaction.glitch.me/post");
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");

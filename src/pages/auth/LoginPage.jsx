@@ -34,8 +34,8 @@ export default function LoginPage() {
 	const handleLogin = async () => {
 		setLoading(true);
 		try {
-			const res = await fetch("/api/users/login", {
-				method: "POST",
+			const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/user/${user.id}`, {
+				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
 				},
