@@ -23,7 +23,7 @@ const UserHeader = ({ user }) => {
     const [activeTab, setActiveTab] = useState("posts");
 
     getFollow({ user_id: my_id,following: user._id }).then((data) => {
-        if(data.status == 201) setFollowing(true)
+        if(data.status == 200) setFollowing(true)
     })
 
     const handleFollow = () => {
