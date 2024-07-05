@@ -21,7 +21,7 @@ const useLogout = () => {
 				return;
 			}
 
-			localStorage.removeItem("user-belajar");
+			localStorage.removeItem("user_id", data.data[0]._id);
 			setUser(null);
 		} catch (error) {
 			showToast("Error", error, "error");

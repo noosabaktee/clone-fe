@@ -19,12 +19,13 @@ import { useSetRecoilState } from "recoil";
 import useShowToast from "../../hooks/useShowToast";
 import userAtom from "../../atoms/userAtom";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { getUser } from "../../libs/Methods";
 
 export default function LoginPage() {
 	const [showPassword, setShowPassword] = useState(false);
 	const setUser = useSetRecoilState(userAtom);
 	const [loading, setLoading] = useState(false);
-	const navigate = useNavigate(); // Use useNavigate for navigation
+	const navigate = useNavigate(); 
 
 	const [inputs, setInputs] = useState({
 		username: "",
@@ -33,28 +34,29 @@ export default function LoginPage() {
 	const showToast = useShowToast();
 	const handleLogin = async () => {
 		setLoading(true);
-		try {
-			const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/user/${user.id}`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(inputs),
-			});
-			console.log(inputs);
-			const data = await res.json();
-			if (data.error) {
-				showToast("Error", data.error, "error");
-				return;
-			}
-			localStorage.setItem("user-belajar", JSON.stringify(data));
-			setUser(data);
-			navigate("/"); // Navigate to the dashboard or welcome page
-		} catch (error) {
-			showToast("Error", error.message || "Login failed", "error");
-		} finally {
-			setLoading(false);
-		}
+
+        getUser(inputs)
+            .then(data => {
+                console.log('User login response:', data);
+
+                if (data.error) {
+                    showToast("Error", data.error, "error");
+                } else {
+                    showToast("Success", "Logged in successfully!", "success");
+                    localStorage.setItem("user_id", data.data[0]._id);
+					console.log(data.data[0]._id)
+                    setUser(data);
+                    navigate("/"); // Navigate to the dashboard or welcome page
+                }
+            })
+            .catch(error => {
+                console.error('Error logging in:', error);
+                showToast("Error", "Login failed. Please try again later.", "error");
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+		
 	};
 
 	return (

@@ -51,7 +51,7 @@ export default function UpdateProfilePage() {
 			}
 			showToast("Success", "Profile updated successfully", "success");
 			setUser(data);
-			localStorage.setItem("user-belajar", JSON.stringify(data));
+			localStorage.setItem("user_id", data.data[0]._id);
 		} catch (error) {
 			showToast("Error", error, "error");
 		} finally {

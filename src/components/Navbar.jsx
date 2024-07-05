@@ -1,20 +1,27 @@
-import { Button, Flex, Icon, Image, Link, useColorMode, Container } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
+import { Button, Flex, Icon, Image, Link, Container } from "@chakra-ui/react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { RxAvatar } from "react-icons/rx";
 import { Link as RouterLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../hooks/useLogout";
 import { BsFillChatQuoteFill } from "react-icons/bs";
-import { GoSun } from "react-icons/go";
-import { FaMoon } from "react-icons/fa";
 import Logo from "../assets/image/Logo.png";
 import { VscAccount } from "react-icons/vsc";
+import { getUser } from "../libs/Methods";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
-    const { colorMode, toggleColorMode } = useColorMode();
-    const user = useRecoilValue(userAtom);
+    // const user = useRecoilValue(userAtom);
     const logout = useLogout();
+    const setUser = useSetRecoilState(userAtom);
+    let [users, setUsers] = useState()
+
+   getUser({ _id: localStorage.getItem("user_id") })
+   .then(data => {
+       setUsers(data.data[0])
+   })
+
 
     return (
         <Container maxW="1440px" w="full" >
@@ -41,7 +48,7 @@ const Navbar = () => {
                                 About Us
                             </Button>
                         </Link>
-						{user && (
+						{users && (
 							<Link as={RouterLink} to="/contact" mx={4}>
                             <Button _hover={"transparent"}>
                                 Contact
@@ -55,16 +62,7 @@ const Navbar = () => {
                         </Button>
                     </Flex>
                 </Flex>
-
-                {/* <Icon //dark or light mode
-                    as={colorMode === "dark" ? GoSun : FaMoon}
-                    cursor={"pointer"}
-                    w={6}
-                    h={6}
-                    onClick={toggleColorMode}
-                /> */}
-
-                {user && (
+                {users && (
                     <Flex alignItems={"center"} gap={4}>
                         <Link as={RouterLink} to={`/chat`}>
                             <BsFillChatQuoteFill size={20} />
@@ -72,16 +70,16 @@ const Navbar = () => {
                         {/* <Button size={"xs"} onClick={logout}>
                             <FiLogOut size={20} />
 							</Button> */}
-							<Link as={RouterLink} to={`/${user.username}`} mx={4}>
+							<Link as={RouterLink} to={`/user/${users.username}`} mx={4}>
                                 <RxAvatar size={24} />
                             </Link>
                     </Flex>
                 )}
 
-                {!user && (
+                {!users && (
                     <Flex>
                         <Button bg={"orange.medium"} color={"white"}>
-                            <Link as={RouterLink} to={"/signup"}>
+                            <Link as={RouterLink} to="/signup">
                                 Sign up
                             </Link>
                         </Button>

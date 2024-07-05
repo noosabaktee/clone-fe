@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { DeleteIcon } from "@chakra-ui/icons";
 import postsAtom from "../atoms/postsAtom";
+import { getPost, deletePost } from "../libs/Methods";
 
 const PostPage = () => {
 	const { user, loading } = useGetUserProfile();
@@ -22,11 +23,10 @@ const PostPage = () => {
 	const currentPost = posts[0];
 
 	useEffect(() => {
-		const getPost = async () => {
+		const getPost = () => {
 			setPosts([]);
 			try {
-				const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/post/${pid}`);
-				const data = await res.json();
+				getPost({ id: 'user_id' })
 				if (data.error) {
 					showToast("Error", data.error, "error");
 					return;
@@ -36,17 +36,17 @@ const PostPage = () => {
 				showToast("Error", error.message, "error");
 			}
 		};
-		getPost();
 	}, [showToast, pid, setPosts]);
 
-	const handleDeletePost = async () => {
+	const handleDeletePost = () => {
 		try {
 			if (!window.confirm("Are you sure you want to delete this post?")) return;
 
-			const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/post/${currentPost._id}`, {
-				method: "DELETE",
-			});
-			const data = await res.json();
+			// const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/post/${currentPost._id}`, {
+			// 	method: "DELETE",
+			// });
+			deletePost({ id: user_id })
+			const data = res.json();
 			if (data.error) {
 				showToast("Error", data.error, "error");
 				return;

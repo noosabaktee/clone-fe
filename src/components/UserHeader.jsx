@@ -10,13 +10,13 @@ import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
 import useFollowUnfollow from "../hooks/useFollowUnfollow";
 import CustomButton from "../utils/CustomButton";
-import UserLiked from "./UserLiked";
+// import UserLiked from "./UserLiked";
 import Post from "./Post";
 import { useState } from "react";
 
 const UserHeader = ({ user }) => {
     const toast = useToast();
-    const currentUser = useRecoilValue(userAtom); // logged in user
+    const currentUser = useRecoilValue(userAtom);
     const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
     const [activeTab, setActiveTab] = useState("posts");
 

@@ -26,6 +26,7 @@ import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from "../atoms/postsAtom";
 import { useParams } from "react-router-dom";
+import { createPost } from "../libs/Methods";
 
 const MAX_CHAR = 500;
 
@@ -54,34 +55,33 @@ const CreatePost = () => {
 		}
 	};
 
-	const handleCreatePost = async () => {
+	const handleCreatePost = () => {
 		setLoading(true);
 		try {
-			const res = await fetch("https://orchid-sulfuric-reaction.glitch.me/create", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ postedBy: user._id, text: postText, img: imgUrl }),
-			});
-
-			const data = await res.json();
-			if (data.error) {
-				showToast("Error", data.error, "error");
-				return;
-			}
-			showToast("Success", "Post created successfully", "success");
-			if (username === user.username) {
-				setPosts([data, ...posts]);
-			}
-			onClose();
-			setPostText("");
-			setImgUrl("");
-		} catch (error) {
+			createPost({ postedBy: user._id, text: postText, img: imgUrl })
+			  .then((data) => {
+				if (data.error) {
+				  showToast("Error", data.error, "error");
+				  return;
+				}
+				showToast("Success", "Post created successfully", "success");
+				if (username === user.username) {
+				  setPosts([data, ...posts]);
+				}
+				onClose();
+				setPostText("");
+				setImgUrl("");
+			  })
+			  .catch((error) => {
+				showToast("Error", error, "error");
+			  })
+			  .finally( () => {
+				setLoading(false);
+			  });
+		  
+		  } catch (error) {
 			showToast("Error", error, "error");
-		} finally {
-			setLoading(false);
-		}
+		  }
 	};
 
 	return (

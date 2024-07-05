@@ -2,10 +2,12 @@ import axios from 'axios'
 axios.defaults.headers.common['Authorization'] = `conqueror`;
 axios.defaults.headers.common['Content-Type'] = `application/json`;
 
-export function CreateUser(params){
+
+export function createUser(params){
     const promise = axios.post(import.meta.env.VITE_BACKEND_URI+"/user", params)
     // using .then, create a new promise which extracts the data
     const dataPromise = promise.then((response) => response.data).catch(err => err.response)
+    
     // return it
     return dataPromise
 }

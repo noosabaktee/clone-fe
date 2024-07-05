@@ -19,7 +19,6 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 
 import CustomPage from "./tuner/CustomPage";
-import Index from "./tuner/Index";
 import LightDark from "./components/LightDark";
 
 
@@ -42,10 +41,7 @@ function App() {
 					<Route path="/about" element={<AboutPage />} />
 					<Route path="/contact" element={<ContactPage />} />
 					<Route path="/" element={<WelcomePage />} />
-					<Route
-						path='/:username'
-						element={user ? (<> <UserPage /> <CreatePost /> </>) : (<UserPage />)}
-					/>
+					<Route path='/user/:username' element={user ? (<> <UserPage /> <CreatePost /> </>) : (<UserPage />)} />
 					<Route path='/:username/post/:pid' element={<PostPage />} />
 					<Route path='/chat' element={user ? <ChatPage /> : <Navigate to="/login" />} />
 					<Route path='/course/list' element={<CourseListPage />} />

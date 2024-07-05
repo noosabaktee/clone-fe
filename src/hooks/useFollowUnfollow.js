@@ -2,52 +2,66 @@ import { useState } from "react";
 import useShowToast from "./useShowToast";
 import userAtom from "../atoms/userAtom";
 import { useRecoilValue } from "recoil";
+import { getFollow, deleteFollow } from "../libs/Methods";
 
 const useFollowUnfollow = (user) => {
-	const currentUser = useRecoilValue(userAtom);
-	const [following, setFollowing] = useState(user.followers.includes(currentUser?._id));
-	const [updating, setUpdating] = useState(false);
-	const showToast = useShowToast();
+  const currentUser = useRecoilValue(userAtom);
+  const showToast = useShowToast();
+  // const [following, setFollowing] = useState(user.followers.includes(currentUser?._id));
+  const [updating, setUpdating] = useState(false);
 
-	const handleFollowUnfollow = async () => {
-		if (!currentUser) {
-			showToast("Error", "Please login to follow", "error");
-			return;
-		}
-		if (updating) return;
+  const useFollow = () => {
+    getFollow({ id: user.id })
+      .then(data => {
+        if (data.error) {
+          showToast("Error", data.error, "error");
+        } else {
+          showToast("Success", `Followed ${user.name}`, "success");
+          // setFollowing(true);
+        }
+      })
+      .catch(error => {
+        showToast("Error", error.message, "error");
+      })
+      .finally(() => {
+        setUpdating(false);
+      });
+  };
 
-		setUpdating(true);
-		try {
-			const res = await fetch(`https://orchid-sulfuric-reaction.glitch.me/follow/${user._id}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			const data = await res.json();
-			if (data.error) {
-				showToast("Error", data.error, "error");
-				return;
-			}
+  const useUnfollow = () => {
+    deleteFollow({ id: user.id })
+      .then(data => {
+        if (data.error) {
+          showToast("Error", data.error, "error");
+        } else {
+          showToast("Success", `Unfollowed ${user.name}`, "success");
+          // setFollowing(false);
+        }
+      })
+      .catch(error => {
+        showToast("Error", error.message, "error");
+      })
+      .finally(() => {
+        setUpdating(false);
+      });
+  };
 
-			if (following) {
-				showToast("Success", `Unfollowed ${user.name}`, "success");
-				user.followers.pop(); // simulate removing from followers
-			} else {
-				showToast("Success", `Followed ${user.name}`, "success");
-				user.followers.push(currentUser?._id); // simulate adding to followers
-			}
-			setFollowing(!following);
+  const handleFollowUnfollow = () => {
+    if (!currentUser) {
+      showToast("Error", "Please login to follow", "error");
+      return;
+    }
+    if (updating) return;
 
-			console.log(data);
-		} catch (error) {
-			showToast("Error", error, "error");
-		} finally {
-			setUpdating(false);
-		}
-	};
+    setUpdating(true);
+    // if (following) {
+    //   useUnfollow();
+    // } else {
+    //   useFollow();
+    // }
+  };
 
-	return { handleFollowUnfollow, updating, following };
+  return { handleFollowUnfollow, updating };
 };
 
 export default useFollowUnfollow;
