@@ -19,20 +19,20 @@ const Post = ({ post, postedBy }) => {
 	const [posts, setPosts] = useRecoilState(postsAtom);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		getPost({ id  })
-		.then(data => {
-			console.log('User profile response:', data);
-					if (data.error) {
-						showToast("Error", data.error, "error");
-					} else {
-						setUser(data.user);
-					}
-		}).catch(err => {
-			console.error(err);
-			return null;
-		});
-	}, [postedBy, showToast]);
+	// useEffect(() => {
+	// 	getPost({ id  })
+	// 	.then(data => {
+	// 		console.log('User profile response:', data);
+	// 				if (data.error) {
+	// 					showToast("Error", data.error, "error");
+	// 				} else {
+	// 					setUser(data.user);
+	// 				}
+	// 	}).catch(err => {
+	// 		console.error(err);
+	// 		return null;
+	// 	});
+	// }, [postedBy, showToast]);
 
 	const handleDeletePost =  () => {
 		e.preventDefault();

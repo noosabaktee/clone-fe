@@ -1,67 +1,35 @@
 import { useState } from "react";
-import useShowToast from "./useShowToast";
 import userAtom from "../atoms/userAtom";
 import { useRecoilValue } from "recoil";
-import { getFollow, deleteFollow } from "../libs/Methods";
+import { getFollow, deleteFollow, createFollow } from "../libs/Methods";
 
-const useFollowUnfollow = (user) => {
-  const currentUser = useRecoilValue(userAtom);
-  const showToast = useShowToast();
-  // const [following, setFollowing] = useState(user.followers.includes(currentUser?._id));
-  const [updating, setUpdating] = useState(false);
-
-  const useFollow = () => {
-    getFollow({ id: user.id })
-      .then(data => {
-        if (data.error) {
-          showToast("Error", data.error, "error");
-        } else {
-          showToast("Success", `Followed ${user.name}`, "success");
-          // setFollowing(true);
+const follow = (user,my_id,setFollowing) => {
+  if (!my_id) {
+    console.log("Error", "Please login to follow", "error");
+    return;
+  }
+  getFollow({ user_id: my_id,following: user._id })
+  .then(data => {
+    if(data.status == 204){
+      createFollow({ user_id: my_id,following: user._id }).then((datas) => {
+        if(datas.status == 201){
+          console.log("Success", `Followed ${user.name}`, "success");
+          setFollowing(true)
+        }else{
+          console.log("Error");
         }
       })
-      .catch(error => {
-        showToast("Error", error.message, "error");
-      })
-      .finally(() => {
-        setUpdating(false);
-      });
-  };
-
-  const useUnfollow = () => {
-    deleteFollow({ id: user.id })
-      .then(data => {
-        if (data.error) {
-          showToast("Error", data.error, "error");
-        } else {
-          showToast("Success", `Unfollowed ${user.name}`, "success");
-          // setFollowing(false);
+    }else{
+      deleteFollow({_id:data.data[0]._id}).then((datas) => {
+        if(datas.status == 200){
+          console.log("Success", `Unfollow ${user.name}`, "success");
+          setFollowing(false)
+        }else{
+          console.log("Error");
         }
       })
-      .catch(error => {
-        showToast("Error", error.message, "error");
-      })
-      .finally(() => {
-        setUpdating(false);
-      });
-  };
-
-  const handleFollowUnfollow = () => {
-    if (!currentUser) {
-      showToast("Error", "Please login to follow", "error");
-      return;
     }
-    if (updating) return;
-
-    setUpdating(true);
-    // if (following) {
-    //   useUnfollow();
-    // } else {
-    //   useFollow();
-    // }
-  };
-
-  return { handleFollowUnfollow, updating };
+  })
 };
 
-export default useFollowUnfollow;
+export default follow;

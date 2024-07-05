@@ -1,9 +1,8 @@
 import { Box, Button, Flex, Stack, Text, Link, Container, VStack, Heading, Image } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Post from "../assets/image/icon.png";
 import { useRecoilValue } from 'recoil';
-import userAtom from '../atoms/userAtom';
 import Main from "../assets/image/main.png"
 import Logo from "../assets/image/Logo.png";
 import Dekstop2 from "../assets/image/dekstop2.png"
@@ -11,9 +10,13 @@ import Dekstop1 from "../assets/image/dekstop1.png"
 import AdeS from "../assets/image/adeS.png"
 import HarryV from "../assets/image/harryV.png"
 import AryaN from "../assets/image/aryaN.png"
-
+import { getUser } from '../libs/Methods';
 const WelcomePage = () => {
-    const user = useRecoilValue(userAtom);
+    let [user,setUser] = useState()
+    getUser({ "_id": localStorage.getItem("user_id") })
+		.then(data => {
+			setUser(data.data[0])
+		})
 
     return (
       <>
