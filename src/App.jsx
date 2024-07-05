@@ -17,13 +17,18 @@ import AboutPage from "./pages/AboutPage"
 import ContactPage from "./pages/ContactPage"
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
-
-import CustomPage from "./tuner/CustomPage";
+import { getUser } from "./libs/Methods";
+// import CustomPage from "./tuner/CustomPage";
 import LightDark from "./components/LightDark";
+import { useState } from "react";
 
 
 function App() {
 	const user = useRecoilValue(userAtom);
+	const [exist,setExist] = useState(false)
+	getUser({_id: localStorage.getItem("user_id")}).then((data) => {
+		if(data.status == 200) setExist(true)
+	})
 	const { pathname } = useLocation();
 	return (
 		
@@ -35,8 +40,8 @@ function App() {
 					{/* <Route path='/' element={user ? <ForumPage /> : <Navigate to='/login' />} />
 					<Route path='/login' element={!user ? <LoginPage /> : <Navigate to='/' />} /> */}
 					<Route path='/update' element={user ? <UpdateProfilePage /> : <Navigate to='/login' />} />
-					<Route path='/signup' element={!user ? <SignupPage/> :  <Navigate to='/login' />} />
-					<Route path="/login" element={<LoginPage />} />
+					<Route path='/signup' element={!exist ? <SignupPage/> :  <Navigate to='/' />} />
+					<Route path="/login" element={!exist ? <LoginPage/> :  <Navigate to='/' />} />
 					<Route path="/forum" element={<ForumPage />} />
 					<Route path="/about" element={<AboutPage />} />
 					<Route path="/contact" element={<ContactPage />} />

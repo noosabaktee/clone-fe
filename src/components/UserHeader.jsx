@@ -8,17 +8,27 @@ import { CgMoreO } from "react-icons/cg";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { Link as RouterLink } from "react-router-dom";
-import useFollowUnfollow from "../hooks/useFollowUnfollow";
+import follow from "../hooks/useFollowUnfollow";
 import CustomButton from "../utils/CustomButton";
 // import UserLiked from "./UserLiked";
 import Post from "./Post";
 import { useState } from "react";
+import { getFollow } from "../libs/Methods";
 
 const UserHeader = ({ user }) => {
     const toast = useToast();
-    const currentUser = useRecoilValue(userAtom);
-    const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user);
+    const currentUser = user;
+    const my_id = localStorage.getItem("user_id")
+    const [following,setFollowing] = useState(false)
     const [activeTab, setActiveTab] = useState("posts");
+
+    getFollow({ user_id: my_id,following: user._id }).then((data) => {
+        if(data.status == 200) setFollowing(true)
+    })
+
+    const handleFollow = () => {
+        follow(currentUser,my_id,setFollowing)
+    }
 
     const copyURL = () => {
         const currentURL = window.location.href;
@@ -73,19 +83,19 @@ const UserHeader = ({ user }) => {
 
             <Text>{user.bio}</Text>
 
-            {currentUser?._id === user._id && (
+            {currentUser._id === my_id && (
                 <Link as={RouterLink} to='/update'>
                     <Button size={"sm"}>Update Profile</Button>
                 </Link>
             )}
-            {currentUser?._id !== user._id && (
-                <Button size={"sm"} onClick={handleFollowUnfollow} isLoading={updating}>
+            {currentUser._id !== my_id && (
+                <Button size={"sm"} onClick={() => handleFollow()}>
                     {following ? "Unfollow" : "Follow"}
                 </Button>
             )}
             <Flex w={"full"} justifyContent={"space-between"}>
                 <Flex gap={2} alignItems={"center"}>
-                    <Text color={"gray.light"}>{user.followers.length} followers</Text>
+                    {/* <Text color={"gray.light"}>{user.followers.length} followers</Text> */}
                     <Box w='1' h='1' bg={"gray.light"} borderRadius={"full"}></Box>
                     <Link color={"gray.light"}>instagram.com</Link>
                 </Flex>

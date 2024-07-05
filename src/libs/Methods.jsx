@@ -2,7 +2,6 @@ import axios from 'axios'
 axios.defaults.headers.common['Authorization'] = `conqueror`;
 axios.defaults.headers.common['Content-Type'] = `application/json`;
 
-
 export function createUser(params){
     const promise = axios.post(import.meta.env.VITE_BACKEND_URI+"/user", params)
     // using .then, create a new promise which extracts the data
@@ -124,8 +123,12 @@ export function getFollow(query){
     return dataPromise
 }  
 
-export function deleteFollow(id){
-    axios.delete(import.meta.env.VITE_BACKEND_URI+"/follow", {data:{id: id}}).then((response) => response).catch((err) => err); 
+export function deleteFollow(params){
+    const promise = axios.delete(import.meta.env.VITE_BACKEND_URI+"/follow", params)
+    // using .then, create a new promise which extracts the data
+    const dataPromise = promise.then((response) => response.data).catch(err => err.response)
+    // return it
+    return dataPromise
 }
 
 export function createComment(params){

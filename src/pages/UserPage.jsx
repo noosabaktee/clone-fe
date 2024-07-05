@@ -16,18 +16,15 @@ const UserPage = () => {
 	const [posts, setPosts] = useRecoilState(postsAtom);
 	const [fetchingPosts, setFetchingPosts] = useState(true);
 	let [users, setUsers] = useState()
-	let [status, setStatus] = useState()
 
 	useEffect(() => {
 
-		// 
-		  setFetchingPosts(true);
+		setFetchingPosts(true);
 
-		  getUser({ _id: localStorage.getItem("user_id") })
-		  .then(data => {
-			  setUsers(data.data[0])
-			  console.log(data.data)
-   		})
+		getUser({ "username": username })
+		.then(data => {
+			setUsers(data.data[0])
+		})
 
 		   if (!users || !users.id) {
 				setFetchingPosts(false);
