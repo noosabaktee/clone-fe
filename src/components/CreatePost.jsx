@@ -18,7 +18,7 @@ import {
 	useColorModeValue,
 	useDisclosure,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import usePreviewImg from "../hooks/usePreviewImg";
 import { BsFillImageFill } from "react-icons/bs";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -32,56 +32,71 @@ const MAX_CHAR = 500;
 
 const CreatePost = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [postText, setPostText] = useState("");
 	const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
 	const imageRef = useRef(null);
-	const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
 	const user = useRecoilValue(userAtom);
 	const showToast = useShowToast();
 	const [loading, setLoading] = useState(false);
 	const [posts, setPosts] = useRecoilState(postsAtom);
 	const { username } = useParams();
+	const [inputs, setInputs] = useState({
+		user_id: "",
+		postedBy: "",
+		text: "",
+		img: "null",
+	});
+
+	const [remainingChar, setRemainingChar] = useState(MAX_CHAR);
+
+	useEffect(() => {
+		if (user && user.data && user.data[0]) {
+			setInputs({
+				user_id: user.data[0]._id,
+				postedBy: user.data[0].username,
+				text: "",
+				img: "null",
+			});
+		}
+	}, [user]);
 
 	const handleTextChange = (e) => {
 		const inputText = e.target.value;
-
 		if (inputText.length > MAX_CHAR) {
 			const truncatedText = inputText.slice(0, MAX_CHAR);
-			setPostText(truncatedText);
+			setInputs((inputs) => ({ ...inputs, text: truncatedText }));
 			setRemainingChar(0);
 		} else {
-			setPostText(inputText);
+			setInputs((inputs) => ({ ...inputs, text: inputText }));
 			setRemainingChar(MAX_CHAR - inputText.length);
 		}
 	};
 
 	const handleCreatePost = () => {
 		setLoading(true);
-		try {
-			createPost({ postedBy: user._id, text: postText, img: imgUrl })
-			  .then((data) => {
-				if (data.error) {
-				  showToast("Error", data.error, "error");
-				  return;
+		const postData = { ...inputs, img: imgUrl };
+		console.log("Data yang dikirim", postData);
+
+		createPost(postData)
+			.then((data) => {
+				if (data && data.error) {
+					showToast("Error", data.error, "error");
+					return;
 				}
 				showToast("Success", "Post created successfully", "success");
-				if (username === user.username) {
-				  setPosts([data, ...posts]);
+				if (username === user.data[0].username) {
+					setPosts([data, ...posts]);
 				}
 				onClose();
-				setPostText("");
+				setInputs({ user_id: user.data[0]._id, text: "", img: "" });
 				setImgUrl("");
-			  })
-			  .catch((error) => {
-				showToast("Error", error, "error");
-			  })
-			  .finally( () => {
+			})
+			.catch((error) => {
+				showToast("Error", "Kesalahan membuat posting", "error");
+				console.error("Error creating post:", error);
+			})
+			.finally(() => {
 				setLoading(false);
-			  });
-		  
-		  } catch (error) {
-			showToast("Error", error, "error");
-		  }
+			});
 	};
 
 	return (
@@ -108,7 +123,7 @@ const CreatePost = () => {
 							<Textarea
 								placeholder='Post content goes here..'
 								onChange={handleTextChange}
-								value={postText}
+								value={inputs.text}
 							/>
 							<Text fontSize='xs' fontWeight='bold' textAlign={"right"} m={"1"} color={"gray.800"}>
 								{remainingChar}/{MAX_CHAR}
@@ -129,6 +144,7 @@ const CreatePost = () => {
 								<CloseButton
 									onClick={() => {
 										setImgUrl("");
+										setInputs((inputs) => ({ ...inputs, img: "" }));
 									}}
 									bg={"gray.800"}
 									position={"absolute"}

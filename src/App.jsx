@@ -26,9 +26,13 @@ import { useState } from "react";
 function App() {
 	const user = useRecoilValue(userAtom);
 	const [exist,setExist] = useState(false)
-	getUser({_id: localStorage.getItem("user_id")}).then((data) => {
-		if(data.status == 200) setExist(true)
-	})
+
+	if(localStorage.getItem("user_id")){
+		getUser({_id: localStorage.getItem("user_id")}).then((data) => {
+			if(data.status == 200) setExist(true)
+		})
+    }
+
 	const { pathname } = useLocation();
 	return (
 		

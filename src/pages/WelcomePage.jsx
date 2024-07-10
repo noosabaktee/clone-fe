@@ -13,10 +13,13 @@ import AryaN from "../assets/image/aryaN.png"
 import { getUser } from '../libs/Methods';
 const WelcomePage = () => {
     let [user,setUser] = useState()
-    getUser({ "_id": localStorage.getItem("user_id") })
-		.then(data => {
-			setUser(data.data[0])
-		})
+
+    if(localStorage.getItem("user_id")){
+      getUser({ "_id": localStorage.getItem("user_id") })
+      .then(data => {
+        setUser(data.data[0])
+      })
+    }
 
     return (
       <>
